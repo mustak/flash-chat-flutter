@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import './chat_screen.dart';
+import './welcome_screen.dart';
+
 class LoginScreen extends StatefulWidget {
   static const String id = 'login_screen';
   @override
@@ -84,7 +87,17 @@ class _LoginScreenState extends State<LoginScreen> {
                 elevation: 5.0,
                 child: MaterialButton(
                   onPressed: () {
-                    //Implement login functionality.
+                    //remove all routes except WelcomeScreen
+                    Navigator.pushNamedAndRemoveUntil(
+                      context,
+                      ChatScreen.id,
+                      (route) {
+                        // print(route.settings.name);
+                        return route.settings.name == WelcomeScreen.id
+                            ? true
+                            : false;
+                      },
+                    );
                   },
                   minWidth: 200.0,
                   height: 42.0,
