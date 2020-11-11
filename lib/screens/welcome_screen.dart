@@ -8,7 +8,29 @@ class WelcomeScreen extends StatefulWidget {
   _WelcomeScreenState createState() => _WelcomeScreenState();
 }
 
-class _WelcomeScreenState extends State<WelcomeScreen> {
+class _WelcomeScreenState extends State<WelcomeScreen>
+    with SingleTickerProviderStateMixin {
+  AnimationController controller;
+  int _count = 0;
+
+  @override
+  void initState() {
+    super.initState();
+
+    controller = AnimationController(
+      vsync: this,
+      upperBound: 100.0,
+      duration: Duration(seconds: 1),
+    );
+
+    controller.forward();
+    controller.addListener(() {
+      _count++;
+      print('listener $_count: ${controller.value}');
+      setState(() {});
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,7 +47,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   tag: 'logo',
                   child: Container(
                     child: Image.asset('images/logo2.png'),
-                    height: 60.0,
+                    height: controller.value,
                   ),
                 ),
                 Text(
@@ -84,5 +106,11 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
   }
 }
