@@ -11,7 +11,6 @@ class WelcomeScreen extends StatefulWidget {
 class _WelcomeScreenState extends State<WelcomeScreen>
     with SingleTickerProviderStateMixin {
   AnimationController controller;
-  int _count = 0;
 
   @override
   void initState() {
@@ -25,8 +24,6 @@ class _WelcomeScreenState extends State<WelcomeScreen>
 
     controller.forward();
     controller.addListener(() {
-      _count++;
-      print('listener $_count: ${controller.value}');
       setState(() {});
     });
   }
