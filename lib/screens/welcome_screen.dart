@@ -31,13 +31,21 @@ class _WelcomeScreenState extends State<WelcomeScreen>
       setState(() {});
     });
 
+    animation.addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+        controller.reverse();
+      } else if (status == AnimationStatus.dismissed) {
+        controller.forward();
+      }
+    });
+
     runController();
   }
 
   void runController() async {
     await controller.forward();
-    await controller.reverse();
-    await controller.forward();
+    // await controller.reverse();
+    // await controller.forward();
   }
 
   @override
