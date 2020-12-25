@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../components/rounded_button.dart';
+import 'package:flash_chat_flutter/components/rounded_button.dart';
 import './chat_screen.dart';
 import './welcome_screen.dart';
 

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
-import '../components/rounded_button.dart';
+import 'package:flash_chat_flutter/components/rounded_button.dart';
 import './login_screen.dart';
 import './registration_screen.dart';
 

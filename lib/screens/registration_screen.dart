@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../components/rounded_button.dart';
+import 'package:flash_chat_flutter/components/rounded_button.dart';
 
 class RegistrationScreen extends StatefulWidget {
   static const String id = 'registeration_screen';
