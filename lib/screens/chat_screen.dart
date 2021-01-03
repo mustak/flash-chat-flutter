@@ -35,16 +35,16 @@ class _ChatScreenState extends State<ChatScreen> {
     }
   }
 
-  void subscribeMessagesStream() async {
-    var snapshots = _firestore.collection('messages').snapshots();
-
-    await for (var snapshot in snapshots) {
-      for (var message in snapshot.docs) {
-        print(message.data());
-        // print('message: ${message.data()}');
-      }
-    }
-  }
+  // void subscribeMessagesStream() async {
+  //   var snapshots = _firestore.collection('messages').snapshots();
+  //
+  //   await for (var snapshot in snapshots) {
+  //     for (var message in snapshot.docs) {
+  //       print(message.data());
+  //       // print('message: ${message.data()}');
+  //     }
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -55,9 +55,9 @@ class _ChatScreenState extends State<ChatScreen> {
           IconButton(
               icon: Icon(Icons.close),
               onPressed: () {
-                // _auth.signOut();
-                // Navigator.pop(context);
-                subscribeMessagesStream();
+                _auth.signOut();
+                Navigator.pop(context);
+                // subscribeMessagesStream();
               }),
         ],
         title: Text('⚡️Chat'),
@@ -68,6 +68,27 @@ class _ChatScreenState extends State<ChatScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
+            StreamBuilder<QuerySnapshot>(
+              stream: _firestore.collection('messages').snapshots(),
+              builder: (context, asyncSnapshot) {
+                if (!asyncSnapshot.hasData) {
+                  return CircularProgressIndicator(
+                    backgroundColor: Colors.lightBlue,
+                  );
+                }
+                var _messages = asyncSnapshot.data.docs.reversed;
+                List<Text> _messageWidgets = [];
+                for (var message in _messages) {
+                  _messageWidgets.add(
+                    Text(
+                        '${message.data()['text']} - ${message.data()['sender']}'),
+                  );
+                }
+                return Column(
+                  children: _messageWidgets,
+                );
+              },
+            ),
             Container(
               decoration: kMessageContainerDecoration,
               child: Row(
