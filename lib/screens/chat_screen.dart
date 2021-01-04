@@ -35,6 +35,17 @@ class _ChatScreenState extends State<ChatScreen> {
     }
   }
 
+  List<Text> getMessages(_messages) {
+    List<Text> _messageWidgets = [];
+    for (var message in _messages) {
+      final _text = message.data()['text'];
+      final _sender = message.data()['sender'];
+      final _messageWidget = Text('$_text - $_sender');
+      _messageWidgets.add(_messageWidget);
+    }
+    return _messageWidgets;
+  }
+
   // void subscribeMessagesStream() async {
   //   var snapshots = _firestore.collection('messages').snapshots();
   //
@@ -72,20 +83,15 @@ class _ChatScreenState extends State<ChatScreen> {
               stream: _firestore.collection('messages').snapshots(),
               builder: (context, asyncSnapshot) {
                 if (!asyncSnapshot.hasData) {
-                  return CircularProgressIndicator(
-                    backgroundColor: Colors.lightBlue,
+                  return Center(
+                    child: CircularProgressIndicator(
+                      backgroundColor: Colors.lightBlue,
+                    ),
                   );
                 }
-                var _messages = asyncSnapshot.data.docs.reversed;
-                List<Text> _messageWidgets = [];
-                for (var message in _messages) {
-                  _messageWidgets.add(
-                    Text(
-                        '${message.data()['text']} - ${message.data()['sender']}'),
-                  );
-                }
+                final _messages = asyncSnapshot.data.docs.reversed;
                 return Column(
-                  children: _messageWidgets,
+                  children: getMessages(_messages),
                 );
               },
             ),
